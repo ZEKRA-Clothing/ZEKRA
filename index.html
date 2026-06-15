@@ -15,7 +15,8 @@
     <header>
         <div class="logo">ZEKRA</div>
         <nav>
-            <a href="#">Collections</a>
+            <a href="#" class="nav-link-hide">Collections</a>
+            <a href="#" class="nav-link-hide">Our Story</a>
             <!-- Shopping Cart Button with Counter Badge -->
             <a href="#" class="cart-icon-btn" id="cartToggle">
                 <i class="fa-solid fa-bag-shopping"></i>
@@ -30,7 +31,7 @@
             <h2>Your Bag</h2>
             <button class="close-cart-btn" id="cartClose"><i class="fa-solid fa-xmark"></i></button>
         </div>
-
+        
         <!-- Dynamic Item List Container -->
         <div class="cart-items-container" id="cartItemsList">
             <p class="empty-cart-msg">Your bag is currently empty.</p>
@@ -54,10 +55,10 @@
                 <button class="back-cart-btn" id="checkoutClose"><i class="fa-solid fa-arrow-left-long"></i></button>
                 <h2>Checkout</h2>
             </div>
-
-            <form class="checkout-form" id="checkoutForm" action="https://formspree.io/f/xojzrnlr" method="POST" enctype="multipart/form-data">
+            
+            <form class="checkout-form" id="checkoutForm" action="YOUR_FORMSPREE_LINK_HERE" method="POST" enctype="multipart/form-data">
                 <div class="checkout-scroll-area">
-
+                    
                     <!-- Shipping Form Details -->
                     <div class="form-section">
                         <h3>Delivery Details</h3>
@@ -78,7 +79,7 @@
                     <!-- Payment Method Toggle Options -->
                     <div class="form-section">
                         <h3>Payment Method</h3>
-
+                        
                         <div class="payment-options">
                             <label class="payment-label active" id="labelCash">
                                 <input type="radio" name="paymentMethod" value="cash" checked onclick="togglePaymentDetails('cash')">
@@ -105,7 +106,7 @@
                                 <span>zekra.clothing@instapay</span>
                                 <button type="button" onclick="navigator.clipboard.writeText('zekra.clothing@instapay'); alert('Instapay handle copied!');"><i class="fa-regular fa-copy"></i></button>
                             </div>
-
+                            
                             <div class="screenshot-upload-wrapper">
                                 <label for="screenshotInput" class="upload-dropzone" id="uploadDropzone">
                                     <i class="fa-solid fa-arrow-up-from-bracket upload-icon"></i>
@@ -116,7 +117,7 @@
                         </div>
                     </div>
 
-                    <!-- Hidden variables for email generation parameters -->
+                    <!-- Hidden tracking fields for email data parsing mapping -->
                     <input type="hidden" name="Purchased Items" id="hiddenCartItemsInput">
                     <input type="hidden" name="Grand Total Due" id="hiddenGrandTotalInput">
 
@@ -145,19 +146,19 @@
             </form>
         </div>
 
-        <!-- NEW: Sub-Panel B: Symmetrical Luxury Order Success Screen Component -->
+        <!-- Sub-Panel B: Order Success Screen Component -->
         <div id="checkoutSuccessPanel" style="display: none; height: 100%; flex-direction: column;">
             <div class="checkout-drawer-header success-header">
                 <h2>Order Submitted</h2>
                 <button class="close-success-btn" onclick="closeCheckout();"><i class="fa-solid fa-xmark"></i></button>
             </div>
-
+            
             <div class="checkout-scroll-area success-content">
                 <div class="success-icon-box">
                     <i class="fa-regular fa-circle-check"></i>
                 </div>
                 <p class="success-intro">Thank you for shopping with ZEKRA. Your conceptual garment order request is successfully registered.</p>
-
+                
                 <div class="receipt-card">
                     <div class="receipt-section">
                         <h4>Order Number</h4>
@@ -191,7 +192,7 @@
                     </div>
                 </div>
             </div>
-
+            
             <div class="checkout-drawer-footer">
                 <button class="checkout-btn" onclick="closeCheckout();">Continue Exploring</button>
             </div>
@@ -211,7 +212,7 @@
                     <span class="modal-brand-tag">ZEKRA LABELS</span>
                     <h2 id="modalTitleDisplay">Product Title</h2>
                     <div class="modal-price" id="modalPriceDisplay">EGP 0</div>
-
+                    
                     <p class="modal-description" id="modalDescDisplay">
                         Crafted from premium fabrics designed with structured fluidity and architectural seams. A true conceptual staple piece.
                     </p>
@@ -234,7 +235,7 @@
     <div class="modal-overlay" id="modalOverlay"></div>
 
     <main>
-        <!-- Split Hero Section -->
+        <!-- Split Hero Section (Responsive Mobile Stacking Configured) -->
         <section class="split-hero">
             <div class="hero-left">
                 <div class="top-line">
@@ -357,11 +358,7 @@
                             <i class="fa-solid fa-chevron-down arrow-icon"></i>
                         </button>
                         <div class="accordion-content">
-                            <p>
-                                Refunds are not applicable once you pay the courier and he leaves, so please check your order before paying.
-
-                                PLEASE NOTE THAT YOU CANNOT ACCEPT A PART OF YOUR ORDER AND RETURN THE OTHER PART, YOU EITHER ACCEPT AND PAY FOR YOUR FULL ORDER OR RETURN YOUR WHOLE ORDER WITH THE COURIER. ALSO NOTE THAT THE SHIPPING FEES APPLY IN BOTH CASES.
-                            </p>
+                            <p>Refund processing is available for manufacturing imperfections. Returns must be requested within 3 days of delivery confirmation.</p>
                         </div>
                     </div>
                 </div>
@@ -389,9 +386,9 @@
     <script>
         let cart = [];
         let currentActiveProductId = null;
-        let chosenSelectedSize = "M";
+        let chosenSelectedSize = "M"; 
 
-        // DOM elements
+        // Drawers
         const cartDrawer = document.getElementById('cartDrawer');
         const cartOverlay = document.getElementById('cartOverlay');
         const cartToggle = document.getElementById('cartToggle');
@@ -434,7 +431,7 @@
         function openCart() {
             cartDrawer.classList.add('open');
             cartOverlay.classList.add('active');
-            closeModal();
+            closeModal(); 
             closeCheckout();
         }
 
@@ -448,13 +445,12 @@
                 alert("Your bag is empty! Add items before checking out.");
                 return;
             }
-            // Make sure the input panels show up fresh and the old success screen stays hidden
             document.getElementById('checkoutFormPanel').style.display = 'flex';
             document.getElementById('checkoutSuccessPanel').style.display = 'none';
 
             const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
             summarySubtotal.textContent = `EGP ${subtotal.toLocaleString()}`;
-
+            
             let finalAmount = `EGP ${(subtotal + 60).toLocaleString()}`;
             summaryGrandTotal.textContent = finalAmount;
 
@@ -462,14 +458,14 @@
             hiddenCartItemsInput.value = stringDescription;
             hiddenGrandTotalInput.value = finalAmount;
 
-            closeCart();
+            closeCart(); 
             checkoutDrawer.classList.add('open');
             checkoutOverlay.classList.add('active');
         });
 
         checkoutClose.addEventListener('click', () => {
             closeCheckout();
-            openCart();
+            openCart(); 
         });
         checkoutOverlay.addEventListener('click', closeCheckout);
 
@@ -484,19 +480,19 @@
                 labelCash.classList.add('active');
                 labelInstapay.classList.remove('active');
                 instapayDetails.classList.remove('open');
-                fileInput.removeAttribute('required');
+                fileInput.removeAttribute('required'); 
             } else if (type === 'instapay') {
                 labelInstapay.classList.add('active');
                 labelCash.classList.remove('active');
                 instapayDetails.classList.add('open');
-                fileInput.setAttribute('required', 'required');
+                fileInput.setAttribute('required', 'required'); 
             }
         }
 
         function handleFileSelection(input) {
             const statusText = document.getElementById('uploadStatusText');
             const dropzone = document.getElementById('uploadDropzone');
-
+            
             if (input.files && input.files[0]) {
                 statusText.innerHTML = `✓ **Uploaded:** ${input.files[0].name}`;
                 dropzone.style.borderColor = "var(--burgundy)";
@@ -508,23 +504,20 @@
             }
         }
 
-        // UPDATED: Advanced AJAX interception logic to capture metrics and fire the Success panel
-        checkoutForm.addEventListener('submit', function (e) {
-            e.preventDefault(); // Blocks default Formspree screen redirect completely!
-
+        checkoutForm.addEventListener('submit', function(e) {
+            e.preventDefault(); 
+            
             const isInstapay = document.querySelector('input[name="paymentMethod"]:checked').value === 'instapay';
             if (isInstapay && screenshotInput.files.length === 0) {
                 alert("Please upload your Instapay payment confirmation screenshot first.");
                 return;
             }
 
-            // Visual feedback loading state
             const submitBtn = document.getElementById('submitBtnText');
             submitBtn.textContent = "Transmitting Order...";
             submitBtn.style.opacity = "0.7";
             submitBtn.style.pointerEvents = "none";
 
-            // Prepare the receipt variables BEFORE resetting or losing states
             const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
             const totalStr = `EGP ${(subtotal + 60).toLocaleString()}`;
             const randomOrderNum = `#ZK-2026-${Math.floor(1000 + Math.random() * 9000)}`;
@@ -536,15 +529,13 @@
             document.getElementById('receiptMethod').textContent = isInstapay ? 'Instapay Transfer' : 'Cash on Delivery';
             document.getElementById('receiptTotal').textContent = totalStr;
 
-            // Generate receipt listing markup
             document.getElementById('receiptItemsList').innerHTML = cart.map(i => `
-                    <div class="receipt-item-row">
-                        <span>${i.name} (Size: ${i.size}) <strong>x${i.quantity}</strong></span>
-                        <span>EGP ${(i.price * i.quantity).toLocaleString()}</span>
-                    </div>
-                `).join('');
+                <div class="receipt-item-row">
+                    <span>${i.name} (Size: ${i.size}) <strong>x${i.quantity}</strong></span>
+                    <span>EGP ${(i.price * i.quantity).toLocaleString()}</span>
+                </div>
+            `).join('');
 
-            // Fire pure AJAX submission directly to your owner inbox
             const formData = new FormData(checkoutForm);
 
             fetch(checkoutForm.action, {
@@ -552,33 +543,29 @@
                 body: formData,
                 headers: { 'Accept': 'application/json' }
             })
-                .then(response => {
-                    // Return button style variables back to normal
-                    submitBtn.textContent = "Place Order";
-                    submitBtn.style.opacity = "1";
-                    submitBtn.style.pointerEvents = "auto";
+            .then(response => {
+                submitBtn.textContent = "Place Order";
+                submitBtn.style.opacity = "1";
+                submitBtn.style.pointerEvents = "auto";
 
-                    // Swap panels smoothly to display the success data summary box
-                    document.getElementById('checkoutFormPanel').style.display = 'none';
-                    document.getElementById('checkoutSuccessPanel').style.display = 'flex';
+                document.getElementById('checkoutFormPanel').style.display = 'none';
+                document.getElementById('checkoutSuccessPanel').style.display = 'flex';
 
-                    // Flush cart variables safely
-                    cart = [];
-                    updateCartUI();
-                    checkoutForm.reset();
-                    togglePaymentDetails('cash');
+                cart = []; 
+                updateCartUI();
+                checkoutForm.reset();
+                togglePaymentDetails('cash');
 
-                    // Clear out upload boxes indicators
-                    document.getElementById('uploadStatusText').textContent = "Upload Confirmation Screenshot";
-                    document.getElementById('uploadDropzone').style.borderColor = "rgba(30, 16, 15, 0.2)";
-                    document.getElementById('uploadDropzone').style.backgroundColor = "transparent";
-                })
-                .catch(error => {
-                    alert("Oops! There was a transmission hitch. Please check connection parameters and try again.");
-                    submitBtn.textContent = "Place Order";
-                    submitBtn.style.opacity = "1";
-                    submitBtn.style.pointerEvents = "auto";
-                });
+                document.getElementById('uploadStatusText').textContent = "Upload Confirmation Screenshot";
+                document.getElementById('uploadDropzone').style.borderColor = "rgba(30, 16, 15, 0.2)";
+                document.getElementById('uploadDropzone').style.backgroundColor = "transparent";
+            })
+            .catch(error => {
+                alert("Oops! There was a transmission hitch. Please check connection parameters and try again.");
+                submitBtn.textContent = "Place Order";
+                submitBtn.style.opacity = "1";
+                submitBtn.style.pointerEvents = "auto";
+            });
         });
 
         // Size highlight logic
@@ -598,19 +585,19 @@
                 const name = productCard.getAttribute('data-name');
                 const price = productCard.getAttribute('data-price');
                 const desc = productCard.getAttribute('data-desc');
-
+                
                 currentActiveProductId = id;
                 chosenSelectedSize = "M";
                 sizeButtons.forEach(b => {
                     b.classList.remove('active');
-                    if (b.getAttribute('data-size') === "M") b.classList.add('active');
+                    if(b.getAttribute('data-size') === "M") b.classList.add('active');
                 });
 
                 modalTitle.textContent = name;
                 modalPrice.textContent = `EGP ${parseInt(price).toLocaleString()}`;
                 modalDesc.textContent = desc;
 
-                if (id === "1") {
+                if(id === "1") {
                     modalImageDisplay.innerHTML = `<img src="campaign.jpeg.jpeg" style="width:100%;height:100%;object-fit:cover;display:block;">`;
                 } else {
                     modalImageDisplay.innerHTML = `<div class="media-placeholder">[ Close-up View of ${name} ]</div>`;
@@ -621,7 +608,7 @@
         });
 
         modalClose.addEventListener('click', closeModal);
-        modalOverlay.addEventListener('click', modalOverlay);
+        modalOverlay.addEventListener('click', closeModal);
 
         function openModal() {
             productModal.classList.add('open');
@@ -634,21 +621,21 @@
         }
 
         modalAddAction.addEventListener('click', () => {
-            if (!currentActiveProductId) return;
+            if(!currentActiveProductId) return;
             const card = document.querySelector(`.grid-item[data-id="${currentActiveProductId}"]`);
             const name = card.getAttribute('data-name');
             const price = parseInt(card.getAttribute('data-price'));
 
             addToCartArray(currentActiveProductId, name, price, chosenSelectedSize);
-
+            
             modalAddAction.textContent = "Added to Bag ✓";
             modalAddAction.style.backgroundColor = "var(--burgundy)";
-
+            
             setTimeout(() => {
                 modalAddAction.textContent = "Add To Bag";
                 modalAddAction.style.backgroundColor = "var(--dark-charcoal)";
                 closeModal();
-                openCart();
+                openCart(); 
             }, 800);
         });
 
@@ -675,17 +662,17 @@
                 cartItemsList.innerHTML = '<p class="empty-cart-msg">Your bag is currently empty.</p>';
             } else {
                 cartItemsList.innerHTML = cart.map(item => `
-                        <div class="cart-item">
-                            <div class="cart-item-info">
-                                <span class="cart-item-title">${item.name}</span>
-                                <span class="cart-item-qty">Size: <strong>${item.size}</strong> &nbsp;|&nbsp; Qty: ${item.quantity}</span>
-                            </div>
-                            <div class="cart-item-price-block">
-                                <span>EGP ${item.price * item.quantity}</span>
-                                <button onclick="removeItem('${item.id}', '${item.size}')" class="remove-item-btn">Remove</button>
-                            </div>
+                    <div class="cart-item">
+                        <div class="cart-item-info">
+                            <span class="cart-item-title">${item.name}</span>
+                            <span class="cart-item-qty">Size: <strong>${item.size}</strong> &nbsp;|&nbsp; Qty: ${item.quantity}</span>
                         </div>
-                    `).join('');
+                        <div class="cart-item-price-block">
+                            <span>EGP ${item.price * item.quantity}</span>
+                            <button onclick="removeItem('${item.id}', '${item.size}')" class="remove-item-btn">Remove</button>
+                        </div>
+                    </div>
+                `).join('');
             }
 
             const totalPrice = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
